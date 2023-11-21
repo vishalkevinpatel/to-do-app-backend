@@ -1,13 +1,13 @@
 class TodosController < ApplicationController
-  # before_action :authenticate_admin, except: [:index, :show]
+  before_action :authenticate_user
 
   def show
-    @todo = Todo.find_by(id: params["id"])
+    @todo = current_user.todos.find_by(id: params["id"])
     render :show
   end
 
   def index
-    @todos = Todo.all
+    @todos = current_user.todos
     render :index
   end
 
@@ -29,7 +29,7 @@ class TodosController < ApplicationController
   end
 
   def update
-    @todo = Todo.find_by(id: params["id"])
+    @todo = current_user.orders.find_by(id: params["id"])
     @todo.update(
       user_id: params["user_id"] || @todo.user_id,
       title: params["title"] || @todo.title,
@@ -46,7 +46,7 @@ class TodosController < ApplicationController
   end
 
   def destroy
-    todo = Todo.find_by(id: params["id"])
+    todo = current_user.todos.find_by(id: params["id"])
     todo.delete
     render json: { message: "successfully deleted" }
   end
