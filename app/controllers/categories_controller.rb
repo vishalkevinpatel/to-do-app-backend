@@ -11,21 +11,9 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(
-      name: params["name"],
+      name: params["name"] || "Unsorted",
     )
     @category.save
-    if @category.valid?
-      render :show
-    else
-      render json: { errors: @category.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    @category = Category.find_by(id: params["id"])
-    @category.update(
-      name: params["name"] || @category.name,
-    )
     if @category.valid?
       render :show
     else
