@@ -13,12 +13,12 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(
-      user_id: params["user_id"],
+      user_id: current_user.id,
       title: params["title"],
       description: params["description"],
       deadline: params["deadline"],
-      completed: params["completed"],
-      category_id: params["category_id"],
+      completed: false,
+      category_id: params["category_id"] || 3,
     )
     @todo.save
     if @todo.valid?

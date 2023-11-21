@@ -1,17 +1,19 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user
+
   def show
-    @category = Category.find_by(id: params["id"])
+    @category = current_user.categories.find_by(id: params["id"])
     render :show
   end
 
   def index
-    @categories = Category.all
+    @categories = current_user.categories
     render :index
   end
 
   def create
     @category = Category.new(
-      name: params["name"],
+      name: params["name"] || "Unsorted",
     )
     @category.save
     if @category.valid?
@@ -22,7 +24,7 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    @category = Category.find_by(id: params["id"])
+    @category = current_user.categories.find_by(id: params["id"])
     @category.update(
       name: params["name"] || @category.name,
     )
@@ -34,7 +36,7 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    category = Category.find_by(id: params["id"])
+    category = current_user.categories.find_by(id: params["id"])
     category.delete
     render json: { message: "successfully deleted" }
   end
