@@ -31,12 +31,12 @@ class TodosController < ApplicationController
   def update
     @todo = Todo.find_by(id: params["id"])
     @todo.update(
-      user_id: params["user_id"] || @todo.name,
-      title: params["title"] || @todo.price,
+      user_id: params["user_id"] || @todo.user_id,
+      title: params["title"] || @todo.title,
       description: params["description"] || @todo.description,
-      deadline: params["deadline"] || @todo.inventory,
-      completed: params["completed"] || @todo.supplier_id,
-      category_id: params["category_id"] || @todo.supplier_id,
+      deadline: params["deadline"] || @todo.deadline,
+      completed: params["completed"] || @todo.completed,
+      category_id: params["category_id"] || @todo.category_id,
     )
     if @todo.valid?
       render :show
