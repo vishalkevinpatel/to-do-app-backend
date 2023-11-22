@@ -29,7 +29,7 @@ class TodosController < ApplicationController
   end
 
   def update
-    @todo = current_user.orders.find_by(id: params["id"])
+    @todo = current_user.todos.find_by(id: params["id"])
     @todo.update(
       user_id: params["user_id"] || @todo.user_id,
       title: params["title"] || @todo.title,
